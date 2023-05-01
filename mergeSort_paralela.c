@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "omp.h"
 
-#define MAX_SIZE 10
+#define MAX_SIZE 100000
 
 // Function for creating an input array||Update accoorind to your need
 void generate_list(int *x, int n)
@@ -88,23 +88,24 @@ void mergesort(int *X, int n, int *tmp)
 
 int main()
 {
-	int n = 10;
+        int n = 100000;
 	double start, stop;
 
 	int data[MAX_SIZE], tmp[MAX_SIZE];
 
 	generate_list(data, n);
-	printf("List Before Sorting...\n");
-	print_list(data, n);
+	//printf("List Before Sorting...\n");
+	//print_list(data, n);
 	start = omp_get_wtime();
 #pragma omp parallel
 	{
 #pragma omp single
 		mergesort(data, n, tmp);
-	}
+	        printf("Threads: %d\n", omp_get_num_threads());
+        }
 	stop = omp_get_wtime();
-	printf("\nList After Sorting...\n");
-	print_list(data, n);
+	//printf("\nList After Sorting...\n");
+	//print_list(data, n);
 	printf("\nTime: %g\n", stop - start);
 }
 
